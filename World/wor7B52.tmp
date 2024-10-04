@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://blsxh85mlhb0m"]
+
+[ext_resource type="PackedScene" uid="uid://hom0lfwkg33a" path="res://World/map.tscn" id="1_m8tnv"]
+[ext_resource type="Script" path="res://World/world_test.gd" id="1_pea57"]
+[ext_resource type="PackedScene" uid="uid://6cuokt3diicl" path="res://Characters/character.tscn" id="4_h47ne"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mw7v6"]
+noise_type = 0
+fractal_type = 3
+fractal_octaves = 2
+fractal_gain = 0.3
+fractal_ping_pong_strength = 4.0
+domain_warp_type = 2
+domain_warp_amplitude = 20.0
+domain_warp_frequency = 0.005
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 2.0
+domain_warp_fractal_gain = 10.0
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n5lcd"]
+width = 1152
+height = 648
+noise = SubResource("FastNoiseLite_mw7v6")
+
+[node name="WorldTest" type="Node2D"]
+script = ExtResource("1_pea57")
+
+[node name="Map" parent="." instance=ExtResource("1_m8tnv")]
+unique_name_in_owner = true
+
+[node name="Character" parent="." instance=ExtResource("4_h47ne")]
+position = Vector2(8, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(576, 324)
+texture = SubResource("NoiseTexture2D_n5lcd")
+
+[connection signal="character_postion" from="Character" to="." method="_on_character_character_postion"]

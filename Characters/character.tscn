@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://6cuokt3diicl"]
+
+[ext_resource type="Script" path="res://Characters/character.gd" id="1_5vg1e"]
+[ext_resource type="Texture2D" uid="uid://bm5dfo1k2cjw3" path="res://Texture/adventurer.png" id="2_c6krb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_krn27"]
+radius = 3.0
+
+[node name="Character" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_mask = 0
+script = ExtResource("1_5vg1e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_krn27")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_c6krb")
+hframes = 3
+
+[node name="WalkTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://babuxgcvr313o"]
+
+[ext_resource type="Texture2D" uid="uid://bk636uhjckfvx" path="res://Texture/TileOutline.png" id="1_1sml1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7q0vk"]
+size = Vector2(17, 17)
+
+[node name="TileOutline" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_7q0vk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1sml1")
+offset = Vector2(0.5, 0.5)

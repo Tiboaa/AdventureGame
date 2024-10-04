@@ -1,0 +1,96 @@
+[gd_scene load_steps=15 format=3 uid="uid://blsxh85mlhb0m"]
+
+[ext_resource type="Script" path="res://World/world_test.gd" id="1_pea57"]
+[ext_resource type="Script" path="res://World/chunk.gd" id="2_2ppkh"]
+[ext_resource type="PackedScene" uid="uid://babuxgcvr313o" path="res://Utility/tile_outline.tscn" id="2_f8nsh"]
+[ext_resource type="Texture2D" uid="uid://64bmbhcp0xtf" path="res://Texture/testChunkBorder.png" id="2_w7dxk"]
+[ext_resource type="Script" path="res://World/chunk_map.gd" id="3_1og4e"]
+[ext_resource type="Texture2D" uid="uid://ci03no8slavj3" path="res://Texture/TerrainSet.png" id="3_icl2g"]
+[ext_resource type="PackedScene" uid="uid://6cuokt3diicl" path="res://Characters/character.tscn" id="4_h47ne"]
+[ext_resource type="PackedScene" uid="uid://bwlklsl24cdg6" path="res://Utility/camera.tscn" id="8_mfgfx"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e3vuh"]
+texture = ExtResource("2_w7dxk")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_hlogc"]
+tile_size = Vector2i(256, 256)
+sources/0 = SubResource("TileSetAtlasSource_e3vuh")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xvgpy"]
+texture = ExtResource("3_icl2g")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+0:3/0 = 0
+2:3/0 = 0
+4:3/0 = 0
+5:5/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_p154b"]
+sources/0 = SubResource("TileSetAtlasSource_xvgpy")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mw7v6"]
+noise_type = 0
+fractal_type = 3
+fractal_octaves = 2
+fractal_gain = 0.3
+fractal_ping_pong_strength = 4.0
+domain_warp_type = 2
+domain_warp_amplitude = 20.0
+domain_warp_frequency = 0.005
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 2.0
+domain_warp_fractal_gain = 10.0
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n5lcd"]
+width = 1152
+height = 648
+noise = SubResource("FastNoiseLite_mw7v6")
+
+[node name="WorldTest" type="Node2D"]
+script = ExtResource("1_pea57")
+
+[node name="Chunk" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_hlogc")
+format = 2
+script = ExtResource("2_2ppkh")
+
+[node name="TileMap" type="TileMap" parent="Chunk"]
+tile_set = SubResource("TileSet_p154b")
+format = 2
+script = ExtResource("3_1og4e")
+
+[node name="Character" parent="." instance=ExtResource("4_h47ne")]
+position = Vector2(8, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(576, 324)
+texture = SubResource("NoiseTexture2D_n5lcd")
+
+[node name="TileOutline" parent="." instance=ExtResource("2_f8nsh")]
+visible = false
+position = Vector2(8, 8)
+
+[node name="Camera" parent="." instance=ExtResource("8_mfgfx")]
+
+[connection signal="character_postion" from="Character" to="." method="_on_character_character_postion"]
+[connection signal="is_moving" from="Character" to="." method="_is_moving"]
