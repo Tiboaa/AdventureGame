@@ -54,3 +54,6 @@ offset_bottom = 33.0
 grow_horizontal = 0
 grow_vertical = 2
 text = "Quit"
+
+[connection signal="pressed" from="PlayTemporary" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="QuitTemporary" to="." method="_on_quit_pressed"]

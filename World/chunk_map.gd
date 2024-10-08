@@ -1,6 +1,6 @@
 extends TileMap
 
-
+@onready var tile_info = "res://Utility/tile_info_db.gd"
 
 var land_noise = FastNoiseLite.new()
 var height_noise = FastNoiseLite.new()
@@ -37,7 +37,7 @@ func generate_chunk(pos, chunk):
 	#print(tile_position)
 	if tile_position.x % 16 != 0:
 		tile_position.x = round_down_to_nearest_16(tile_position.x)
-		#print("pos x change: ", tile_position)
+		#("pos x change: ", tile_position)
 	if tile_position.y % 16 != 0:
 		tile_position.y = round_down_to_nearest_16(tile_position.y)
 		#print("pos y change: ", tile_position)
@@ -57,17 +57,17 @@ func get_land(tile_pos, X, Y):
 	var grass = grass_noise.get_noise_2d(tile_pos.x + X, tile_pos.y + Y)
 	var trees = tree_noise.get_noise_2d(tile_pos.x + X, tile_pos.y + Y)
 	
-	var biome_index = 0 # GRASS
+	var biome_index = 0 # GRASS_LAND
 	var vegetation_index = 0 # NOTHING
 	
 	if land >= 0:
 		if biome > 0: 
-			biome_index = 2 # STEPPE
+			biome_index = 2 # SAVANNA
 			if biome > 0.5:
 				biome_index = 4 # DESERT
 			
 		if grass > 0.4:
-			vegetation_index = 1 # GRASS
+			vegetation_index = 1 # GRASS_LAND
 		if trees > 0.1:
 			vegetation_index = 2 # TREES --> TREES OVERWRITE GRASS RN ITS INTENDED --> FEATURE
 			
@@ -83,6 +83,7 @@ func get_land(tile_pos, X, Y):
 func check_tile_type(clicked_tile):
 	#var clicked_tile = map_to_local(clicked_pos)
 	#print(get_cell_atlas_coords(0, clicked_tile))
+	print(get_cell_atlas_coords(0, clicked_tile))
 	return get_cell_atlas_coords(0, clicked_tile)
 
 func round_down_to_nearest_16(n: int) -> int:

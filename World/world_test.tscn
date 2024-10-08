@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://blsxh85mlhb0m"]
+[gd_scene load_steps=16 format=3 uid="uid://blsxh85mlhb0m"]
 
 [ext_resource type="Script" path="res://World/world_test.gd" id="1_pea57"]
 [ext_resource type="Script" path="res://World/chunk.gd" id="2_2ppkh"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ci03no8slavj3" path="res://Texture/TerrainSet.png" id="3_icl2g"]
 [ext_resource type="PackedScene" uid="uid://6cuokt3diicl" path="res://Characters/character.tscn" id="4_h47ne"]
 [ext_resource type="PackedScene" uid="uid://bwlklsl24cdg6" path="res://Utility/camera.tscn" id="8_mfgfx"]
+[ext_resource type="PackedScene" uid="uid://baeyksryn2utx" path="res://Characters/GUI/gui.tscn" id="9_5tmm7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e3vuh"]
 texture = ExtResource("2_w7dxk")
@@ -66,6 +67,7 @@ height = 648
 noise = SubResource("FastNoiseLite_mw7v6")
 
 [node name="WorldTest" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_pea57")
 
 [node name="Chunk" type="TileMap" parent="."]
@@ -79,6 +81,7 @@ format = 2
 script = ExtResource("3_1og4e")
 
 [node name="Character" parent="." instance=ExtResource("4_h47ne")]
+unique_name_in_owner = true
 position = Vector2(8, 8)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -92,5 +95,18 @@ position = Vector2(8, 8)
 
 [node name="Camera" parent="." instance=ExtResource("8_mfgfx")]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource("9_5tmm7")]
+unique_name_in_owner = true
+
+[node name="Pause" parent="CanvasLayer/GUI" index="0"]
+visible = false
+
 [connection signal="character_postion" from="Character" to="." method="_on_character_character_postion"]
 [connection signal="is_moving" from="Character" to="." method="_is_moving"]
+[connection signal="pressed" from="CanvasLayer/GUI/Pause/ResumeTemp" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/GUI/Pause/MainMenuTemp" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="CanvasLayer/GUI/Pause/QuitTemp" to="." method="_on_quit_pressed"]
+
+[editable path="CanvasLayer/GUI"]

@@ -1,11 +1,13 @@
 extends CharacterBody2D
 
+@onready var tile_info = "res://Utility/tile_info_db.gd"
 
 const CHUNK = 16
 @export var base_movement_wallet = 6
 
 signal is_moving(moving)
 signal character_postion(character_pos)
+
 
 var past_position
 var click_position = Vector2(0, 0)
@@ -33,33 +35,32 @@ func move_there(pos, tile_type):
 		if tile_type == Vector2i(5, 5):
 			emit_signal("is_moving", false)
 			return
-		#if tile_type == Vector2i(-1,-1):
-			#emit_signal("character_postion", pos)
-
-		#emit_signal("character_postion", pos)
+			
 		past_position = pos
-	var movement_cost = global_position-pos
+	var anim_mov_cost = global_position-pos
 	#print(movement_cost)
-	while movement_cost.x < 0:
-		global_position.x += 0.5
-		movement_cost.x += 0.5
-		await get_tree().create_timer(0.01).timeout
-	while movement_cost.x > 0:
-		global_position.x -= 0.5
-		movement_cost.x -= 0.5
-		await get_tree().create_timer(0.01).timeout
-	while movement_cost.y < 0:
-		global_position.y += 0.5
-		movement_cost.y += 0.5
-		await get_tree().create_timer(0.01).timeout
-	while movement_cost.y > 0:
-		global_position.y -= 0.5
-		movement_cost.y -= 0.5
-		await get_tree().create_timer(0.01).timeout
+	if movement_wallet > 0:
+		while anim_mov_cost.x < 0:
+			global_position.x += 0.5
+			anim_mov_cost.x += 0.5
+			await get_tree().create_timer(0.01).timeout
+		while anim_mov_cost.x > 0:
+			global_position.x -= 0.5
+			anim_mov_cost.x -= 0.5
+			await get_tree().create_timer(0.01).timeout
+		while anim_mov_cost.y < 0:
+			global_position.y += 0.5
+			anim_mov_cost.y += 0.5
+			await get_tree().create_timer(0.01).timeout
+		while anim_mov_cost.y > 0:
+			global_position.y -= 0.5
+			anim_mov_cost.y -= 0.5
+			await get_tree().create_timer(0.01).timeout
 	emit_signal("is_moving", false)
 	#global_position = pos
 	
 
-
+func get_tiles_between_target(past_tile, new_tile):
+	pass
 
 
